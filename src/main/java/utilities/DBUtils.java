@@ -39,7 +39,7 @@ public class DBUtils {
             while (result.next()) {
                 Map<String, Object> allProducts = new HashMap<>();
                 allProducts.put("id", result.getInt("id"));
-                allProducts.put("title",result.getString("title"));
+                allProducts.put("title", result.getString("title"));
                 allProducts.put("review", result.getString("review"));
                 allProducts.put("price", result.getString("price"));
                 allProducts.put("date", result.getString("date"));

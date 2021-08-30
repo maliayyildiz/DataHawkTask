@@ -39,6 +39,7 @@ public class CommonPageElements {
 
     //==========
     int id = 0;
+
     public void getAllProductOnPageAndStoreDB(List<WebElement> products) {
         List<WebElement> allProducts = products;
 
@@ -51,7 +52,7 @@ public class CommonPageElements {
             oneProduct.put("Review", review);
             if (productInfos.size() > 2 && !(productInfos.get(2).getText().contains("Currently unavailable."))) {
                 String reformatPrice = ReusableMethods.reformatPrice(productInfos.get(2).getText());
-                oneProduct.put("Price",reformatPrice);
+                oneProduct.put("Price", reformatPrice);
 
             } else {
                 oneProduct.put("Price", "0");
@@ -61,40 +62,40 @@ public class CommonPageElements {
         }
     }
 
-    public List<Map<String,Object>> getAllProductOnPage(List<WebElement> products) {
-        List<Map<String,Object>> newData = new ArrayList<>();
-        for (int j = 0; j <10 ; j++) {
-        for (int i = 0; i < products.size() - 1; i++) {
-            Map<String, Object> oneProduct = new HashMap<>();
-            List<WebElement> productInfos = products.get(i).findElements(By.xpath("./child::*"));
+    public List<Map<String, Object>> getAllProductOnPage(List<WebElement> products) {
+        List<Map<String, Object>> newData = new ArrayList<>();
+        for (int j = 0; j < 10; j++) {
+            for (int i = 0; i < products.size() - 1; i++) {
+                Map<String, Object> oneProduct = new HashMap<>();
+                List<WebElement> productInfos = products.get(i).findElements(By.xpath("./child::*"));
 
-            oneProduct.put("title", productInfos.get(0).getText());
-            String review = ReusableMethods.reformatReview(productInfos.get(1).getText());
-            oneProduct.put("review", review);
-            if (productInfos.size() > 2 && !(productInfos.get(2).getText().contains("Currently unavailable."))) {
-                String reformatPrice = ReusableMethods.reformatPrice(productInfos.get(2).getText());
-                oneProduct.put("price", reformatPrice);
+                oneProduct.put("title", productInfos.get(0).getText());
+                String review = ReusableMethods.reformatReview(productInfos.get(1).getText());
+                oneProduct.put("review", review);
+                if (productInfos.size() > 2 && !(productInfos.get(2).getText().contains("Currently unavailable."))) {
+                    String reformatPrice = ReusableMethods.reformatPrice(productInfos.get(2).getText());
+                    oneProduct.put("price", reformatPrice);
 
-            } else {
-                oneProduct.put("price", "0");
+                } else {
+                    oneProduct.put("price", "0");
+                }
+                newData.add(oneProduct);
+                if (ReusableMethods.isElementPresent(nextButton)) {
+                    ReusableMethods.clickWithJS(nextButton);
+                    ReusableMethods.waitForPageToLoad(2);
+                } else {
+                    break;
+                }
             }
-            newData.add(oneProduct);
-            if (ReusableMethods.isElementPresent(nextButton)) {
-                ReusableMethods.clickWithJS(nextButton);
-                ReusableMethods.waitForPageToLoad(2);
-            } else {
-                break;
-            }
-        }
         }
         return newData;
     }
 
     public void getAllItemsAndSelectSpecificOne(List<WebElement> products, String expectedTitle) {
         for (int i = 0; i < products.size(); i++) {
-            for (WebElement title:titles) {
+            for (WebElement title : titles) {
                 if (title.getText().equals(expectedTitle)) {
-                  //  System.out.println(title.getText());
+                    //  System.out.println(title.getText());
                     title.click();
                     break;
                 }

@@ -7,15 +7,17 @@ import pages.CommonPageElements;
 
 public class BaseClass {
     CommonPageElements elements = new CommonPageElements();
+
     @BeforeMethod
-    public void preconditions(){
+    public void preconditions() {
         Driver.getDriver().get(ConfigurationReader.getProperty("url"));
         elements.searchBox.sendKeys(ConfigurationReader.getProperty("product") + Keys.ENTER);
         ReusableMethods.clickWithJS(elements.appleCheckBox);
     }
+
     @AfterMethod
-    public void tearDown(){
-       Driver.quitDriver();
+    public void tearDown() {
+        Driver.quitDriver();
     }
 
 }
