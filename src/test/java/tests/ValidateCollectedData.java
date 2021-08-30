@@ -25,28 +25,7 @@ public class ValidateCollectedData extends BaseClass {
 
     @Test
     public void getSpecificProductAndValidate() {
-       // List<Map<String, Object>> expectedProduct = DBUtils.Database_getSpecificData();
-        List<Map<String, Object>> expectedProduct = new ArrayList<>();
-        String jdbcUrl = "jdbc:sqlite:datahawk.db";
-        try {
-            Connection connection = DriverManager.getConnection(jdbcUrl);
-            //System.out.println("SQLITE DB connected");
-
-            Statement statement = connection.createStatement();
-            String expectedData = "SELECT * FROM products WHERE title LIKE '%pro%' and price>0 ORDER BY review DESC LIMIT 1";
-            ResultSet result = statement.executeQuery(expectedData);
-            while (result.next()) {
-                Map<String, Object> allProducts = new HashMap<>();
-                allProducts.put("id", result.getInt("id"));
-                allProducts.put("title", result.getString("title"));
-                allProducts.put("review", result.getString("review"));
-                allProducts.put("price", result.getString("price"));
-                allProducts.put("date", result.getString("date"));
-                expectedProduct.add(allProducts);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        List<Map<String, Object>> expectedProduct = DBUtils.Database_getSpecificData();
         elements.getAllItemsAndSelectSpecificOne(elements.allProductsOnPage, expectedProduct.get(expectedProduct.size() - 1).get("title").toString());
         new WebDriverWait(Driver.getDriver(), 3).until(ExpectedConditions.visibilityOf(elements.actualProductTitle));
         String actualReview = ReusableMethods.reformatReview(elements.actualProductReview.getText());
