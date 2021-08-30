@@ -1,5 +1,7 @@
 package utilities;
 
+import pages.CommonPageElements;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 public class DBUtils {
     public static void Database_write(int id, String title, String price, String review, LocalDateTime Date) {
-        String jdbcUrl = "jdbc:sqlite:/Users/ayyildiz/IdeaProjects/DataHawkTask/amazonData.db";
+        String jdbcUrl = "jdbc:sqlite:datahawk.db";
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl);
             //System.out.println("SQLITE DB connected");
@@ -26,7 +28,7 @@ public class DBUtils {
 
     public static List<Map<String, Object>> Database_getSpecificData() {
         List<Map<String, Object>> expectedProductInfo = new ArrayList<>();
-        String jdbcUrl = "jdbc:sqlite:/Users/ayyildiz/IdeaProjects/DataHawkTask/amazonData.db";
+        String jdbcUrl = "jdbc:sqlite:datahawk.db";
         try {
             Connection connection = DriverManager.getConnection(jdbcUrl);
             //System.out.println("SQLITE DB connected");
@@ -35,17 +37,12 @@ public class DBUtils {
             String expectedData = "SELECT * FROM products WHERE title LIKE '%pro%' and price>0 ORDER BY review DESC LIMIT 1";
             ResultSet result = statement.executeQuery(expectedData);
             while (result.next()) {
-                int id = result.getInt("id");
-                String title = result.getString("title");
-                String review = result.getString("review");
-                String price = result.getString("price");
-                String date = result.getString("date");
                 Map<String, Object> allProducts = new HashMap<>();
-                allProducts.put("id", id);
-                allProducts.put("title", title);
-                allProducts.put("review", review);
-                allProducts.put("price", price);
-                allProducts.put("date", date);
+                allProducts.put("id", result.getInt("id"));
+                allProducts.put("title",result.getString("title"));
+                allProducts.put("review", result.getString("review"));
+                allProducts.put("price", result.getString("price"));
+                allProducts.put("date", result.getString("date"));
                 expectedProductInfo.add(allProducts);
             }
         } catch (Exception e) {

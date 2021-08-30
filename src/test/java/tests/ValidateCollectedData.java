@@ -20,17 +20,15 @@ public class ValidateCollectedData extends BaseClass {
     @Test
     public void getSpecificProductAndValidate(){
         List<Map<String,Object>> expectedProduct = DBUtils.Database_getSpecificData();
-        String expectedProductTitle="";
-
-        for (Map<String, Object> info: expectedProduct) {
-            expectedProductTitle =  info.get("title").toString();
-        }
-        elements.getAllItemsAndSelectSpecificOne(elements.allProductsOnPage,expectedProductTitle);
+        elements.getAllItemsAndSelectSpecificOne(elements.allProductsOnPage,expectedProduct.get(expectedProduct.size()-1).get("title").toString());
         new WebDriverWait(Driver.getDriver(),3).until(ExpectedConditions.visibilityOf(elements.actualProductTitle));
         String actualReview = ReusableMethods.reformatReview(elements.actualProductReview.getText());
         softAssert.assertEquals(elements.actualProductTitle.getText(),expectedProduct.get(expectedProduct.size()-1).get("title").toString());
         softAssert.assertEquals(actualReview,expectedProduct.get(expectedProduct.size()-1).get("review").toString());
         softAssert.assertEquals(elements.actualProductPrice.getText(),ReusableMethods.reformatPrice(expectedProduct.get(expectedProduct.size()-1).get("price").toString()));
         softAssert.assertAll();
+        System.out.println(elements.actualProductTitle.getText());
+        System.out.println(actualReview);
+        System.out.println(elements.actualProductPrice.getText());
     }
 }
